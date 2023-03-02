@@ -148,14 +148,14 @@ def save_unique_variable_date_file(dates_vars):
                                                                               var.upper())
 
 
-            # if var == 'tp':
-            #     ds[var.lower()].to_netcdf('tmp_tp.nc')
-            #     ds_tp = decumulate_precipitation(chosen_date_str)
-            #     ds_tp.to_netcdf(filename)
-            #     os.remove('tmp_tp.nc')
+            if var == 'tp':
+                ds[var.lower()].to_netcdf('tmp_tp.nc')
+                ds_tp = decumulate_precipitation(chosen_date_str)
+                ds_tp.to_netcdf(filename)
+                os.remove('tmp_tp.nc')
 
-            # else:
-            ds[var.lower()].to_netcdf(filename)
+            else:
+                ds[var.lower()].to_netcdf(filename)
 
             print(filename)
             fs.put(filename,
