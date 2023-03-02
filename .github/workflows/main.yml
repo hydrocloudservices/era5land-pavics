@@ -7,7 +7,7 @@ jobs:
   run:
 
     name: Hydat-Forge Data Pipeline
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
