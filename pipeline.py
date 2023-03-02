@@ -30,29 +30,25 @@ def fetch_era5(date, variables_long_name):
     r = c.retrieve(name,
                    request,
                    'tmp.grib2')
-    
 
-def decumulate_precipitation(date, ds_current):
+
+def decumulate_precipitation(date):
     date_previous = datetime.strftime(datetime.strptime(date, '%Y%m%d') - timedelta(days=1),'%Y%m%d')
     name = f"{date}_TP_ERA5_LAND_REANALYSIS.nc"
     bucket = 'era5/north-america/reanalysis/land/netcdf4'
-    
+
     previous_filename = f"https://s3.us-east-1.wasabisys.com/{bucket}/{date_previous}_TP_ERA5_LAND_REANALYSIS.nc"
 
     fs_http = fsspec.filesystem('https')
-    
-    ds_1 = xr.open_dataset(fs_http.open(previous_filename))
-    
-    ds_2 = ds_current[['tp']]
-    
-    ds = xr.concat([ds_1, ds_2], 'time')
-    
+
+    ds = xr.open_mfdataset([fs_http.open(previous_filename), 'tmp_tp.nc'])
+
     ds.tp[23,:,:] = ds.tp.sel(time=slice(f"{date_previous}010000",f"{date_previous}230000")).sum('time')
-    ds_decumulated = xr.where(ds.time.dt.hour.isin(1), ds, 
+    ds_decumulated = xr.where(ds.time.dt.hour.isin(1), ds,
                                   xr.concat([ds.isel(time=0), ds.diff('time')], 'time'))
 
-    
-    
+
+
     return ds_decumulated.sel(time=date)
 
 @task()
@@ -127,7 +123,7 @@ def save_unique_variable_date_file(dates_vars):
             cleaned_list = [x for x in list(ds.coords.keys()) if x not in ['latitude', 'longitude', 'time']]
             ds = ds \
                 .drop(cleaned_list)
-            
+
         if ds.time.shape[0] == 23 and pd.Timestamp(ds.time[0].values).hour==1:
             missing_time = ds.time[0].values - np.timedelta64(1, 'h')
             missing_time_da = xr.DataArray([missing_time], dims=["time"], coords=[[missing_time]])
@@ -150,11 +146,13 @@ def save_unique_variable_date_file(dates_vars):
                                                                               chosen_date.month,
                                                                               chosen_date.day,
                                                                               var.upper())
-            
+
 
             if var == 'tp':
-                ds_tp = decumulate_precipitation(chosen_date_str, ds)
+                ds[var.lower()].to_netcdf('tmp_tp.nc')
+                ds_tp = decumulate_precipitation(chosen_date_str)
                 ds_tp.to_netcdf(filename)
+                os.remove('tmp_tp.nc')
 
             else:
                 ds[var.lower()].to_netcdf(filename)
@@ -164,6 +162,7 @@ def save_unique_variable_date_file(dates_vars):
                    os.path.join(Config.BUCKET,
                                 filename))
             os.remove(filename)
+
     os.remove('tmp.grib2')
     for f in glob.glob("tmp*.idx"):
         os.remove(f)
