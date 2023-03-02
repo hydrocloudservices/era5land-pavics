@@ -21,8 +21,8 @@ class Config(object):
 
     VARIABLES = {
         'total_precipitation': 'tp',
-#        '2m_temperature': 't2m',
-#        'snow_depth_water_equivalent': 'sd',
+        '2m_temperature': 't2m',
+        'snow_depth_water_equivalent': 'sd',
     }
 
     TIMES = ['00:00', '01:00', '02:00',
