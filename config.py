@@ -16,29 +16,29 @@ class Config(object):
                        'config_kwargs': CONFIG_KWARGS
                        }
 
-    # Dataset
-    START_DATE = "1953-10-12"
-    END_DATE = (datetime.utcnow() - timedelta(days=6)).strftime('%Y-%m-%d')
-
-    VARIABLES = {
-        'total_precipitation': 'tp',
-        '2m_temperature': 't2m',
-        'snow_depth_water_equivalent': 'sd',
-    }
-
-#     START_DATE = "1951-01-01"
+#     # Dataset
+#     START_DATE = "1953-10-12"
 #     END_DATE = (datetime.utcnow() - timedelta(days=6)).strftime('%Y-%m-%d')
 
 #     VARIABLES = {
-#         'snowfall': 'sf',
-#         '10m_u_component_of_wind': 'u10',
-#         '10m_v_component_of_wind': 'v10',
-#         '2m_dewpoint_temperature': 'd2m',
-#         'potential_evaporation': 'pev',
-#         'surface_pressure': 'sp',
-#         'surface_solar_radiation_downwards': 'ssrd',
-#         'surface_thermal_radiation_downwards': 'strd'
-#             }
+#         'total_precipitation': 'tp',
+#         '2m_temperature': 't2m',
+#         'snow_depth_water_equivalent': 'sd',
+#     }
+
+    START_DATE = "1951-01-01"
+    END_DATE = (datetime.utcnow() - timedelta(days=6)).strftime('%Y-%m-%d')
+
+    VARIABLES = {
+        'snowfall': 'sf',
+        '10m_u_component_of_wind': 'u10',
+        '10m_v_component_of_wind': 'v10',
+        '2m_dewpoint_temperature': 'd2m',
+        'potential_evaporation': 'pev',
+        'surface_pressure': 'sp',
+        'surface_solar_radiation_downwards': 'ssrd',
+        'surface_thermal_radiation_downwards': 'strd'
+            }
 
     TIMES = ['00:00', '01:00', '02:00',
              '03:00', '04:00', '05:00',
