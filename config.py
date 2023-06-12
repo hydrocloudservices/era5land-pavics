@@ -21,15 +21,16 @@ class Config(object):
 #     END_DATE = (datetime.utcnow() - timedelta(days=6)).strftime('%Y-%m-%d')
 
 #     VARIABLES = {
-#         'total_precipitation': 'tp',
-#         '2m_temperature': 't2m',
-#         'snow_depth_water_equivalent': 'sd',
+
 #     }
 
     START_DATE = "1951-01-01"
     END_DATE = (datetime.utcnow() - timedelta(days=6)).strftime('%Y-%m-%d')
 
     VARIABLES = {
+        'total_precipitation': 'tp',
+        '2m_temperature': 't2m',
+        'snow_depth_water_equivalent': 'sd',
         'snowfall': 'sf',
         '10m_u_component_of_wind': 'u10',
         '10m_v_component_of_wind': 'v10',
