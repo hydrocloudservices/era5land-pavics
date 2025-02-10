@@ -31,7 +31,7 @@ jobs:
 
             touch ~/.cdsapirc
             echo "
-            url: https://cds.climate.copernicus.eu/api/v2
+            url: https://cds.climate.copernicus.eu/api
             key: ${{ secrets.CDS_API_KEY }}
             " > ~/.cdsapirc
 
