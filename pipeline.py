@@ -18,7 +18,8 @@ def fetch_era5(date, variables_long_name):
 
     name = 'reanalysis-era5-land'
 
-    request = {'format': 'grib',
+    request = {'data_format': 'grib',
+               "download_format": "unarchived",
                'variable': variables_long_name,
                'area': [85, -167, 15, -50],  # North, West, South, East. Default: global,
                'year': "{:04d}".format(date.year),
