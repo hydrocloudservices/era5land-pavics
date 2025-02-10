@@ -1,8 +1,7 @@
 name: DataOps
 
 on:
-  schedule:
-  - cron: '0 */6 * * *'
+  push:
 
 jobs:
   run:
@@ -11,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: era5-forge
           environment-file: .binder/environment.yml
